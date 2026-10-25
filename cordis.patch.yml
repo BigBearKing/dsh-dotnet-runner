@@ -1,0 +1,3 @@
+- insert:
+    - id: dotnet-runner
+      name: '@local/dotnet-runner'

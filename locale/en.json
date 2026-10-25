@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "DotNet Runner",
+    "description": "Detects .NET projects in the current workspace and builds/runs the selected one from a floating Run button at the bottom-right."
+  }
+}
