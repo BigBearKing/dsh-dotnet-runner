@@ -5,6 +5,7 @@ DeepSeek Harness（DSH）Web 插件：自动检测当前会话工作区里的 .N
 ## 功能
 
 - 以当前会话的工作目录作为工作区，递归查找 `*.csproj` / `*.fsproj` / `*.vbproj`（跳过 `.git`、`bin`、`obj`、`node_modules`、`.vs` 等目录）
+- 工作区里没有 .NET 项目时，三个按钮整体隐藏；有项目才出现在右下角
 - 一个工作区有多个项目时，可在「更多」面板的下拉框里切换
 - 普通项目：`dotnet build` 成功后执行 `dotnet run --no-build`
 - MAUI 项目：`dotnet build` 成功后直接启动构建产物（macOS 上为 `*.app/Contents/MacOS/<AssemblyName>`），保持进程存活，因此「停止」可以真正结束 App

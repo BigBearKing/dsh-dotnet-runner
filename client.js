@@ -373,6 +373,10 @@ window.__ModuleLoader__.load({
         statusText += ` · ${state.lastLine}`
       }
 
+      // Nothing to run here: keep the frame clean. A build already in flight
+      // stays visible so its Stop button is never stranded.
+      if (projects.length === 0 && !building && !active) return null
+
       return h(
         'div',
         { className: 'dsdr', ref: rootRef },
