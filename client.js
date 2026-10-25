@@ -225,6 +225,8 @@ window.__ModuleLoader__.load({
       const sessionId = useSessionId()
       const [projects, setProjects] = React.useState([])
       const [selected, setSelected] = React.useState('')
+      const [devices, setDevices] = React.useState([])
+      const [deviceId, setDeviceId] = React.useState('')
       const [root, setRoot] = React.useState('')
       const [state, setState] = React.useState(null)
       const [loading, setLoading] = React.useState(true)
@@ -259,6 +261,28 @@ window.__ModuleLoader__.load({
       React.useEffect(() => {
         if (sessionId) detect()
       }, [detect, sessionId])
+
+      React.useEffect(() => {
+        if (!sessionId || !selected) {
+          setDevices([])
+          setDeviceId('')
+          return undefined
+        }
+        let cancelled = false
+        request(`/project?session=${encodeURIComponent(sessionId)}&path=${encodeURIComponent(selected)}`)
+          .then((data) => {
+            if (cancelled) return
+            const list = data.devices || []
+            setDevices(list)
+            setDeviceId(data.defaultDeviceId || (list[0] ? list[0].id : ''))
+          })
+          .catch((failure) => {
+            if (!cancelled) setError(messageOf(failure))
+          })
+        return () => {
+          cancelled = true
+        }
+      }, [selected, sessionId])
 
       const phase = state ? state.phase : 'idle'
       const building = phase === 'building'
@@ -313,7 +337,14 @@ window.__ModuleLoader__.load({
         setOpen(false)
         setOutput('')
         try {
-          const data = await request('/start', { sessionId, path: selected })
+          const device = devices.find((item) => item.id === deviceId) || null
+          const data = await request('/start', {
+            sessionId,
+            path: selected,
+            device: device
+              ? { framework: device.framework, kind: device.kind, target: device.target }
+              : undefined,
+          })
           setState(data.state || null)
         } catch (failure) {
           setError(messageOf(failure))
@@ -457,6 +488,25 @@ window.__ModuleLoader__.load({
                       h('option', { key: project.path, value: project.path }, project.displayName || project.name),
                     ),
               ),
+              devices.length > 1
+                ? h(
+                    React.Fragment,
+                    null,
+                    h('div', { className: 'dsdr-label' }, '设备'),
+                    h(
+                      'select',
+                      {
+                        className: 'dsdr-select',
+                        value: deviceId,
+                        disabled: building || active || busy,
+                        title: '选择目标设备/模拟器',
+                        'aria-label': '选择目标设备/模拟器',
+                        onChange: (event) => setDeviceId(event.target.value),
+                      },
+                      devices.map((device) => h('option', { key: device.id, value: device.id }, device.label)),
+                    ),
+                  )
+                : null,
               h('div', { className: 'dsdr-status', 'data-tone': statusTone || undefined, title: statusText }, statusText),
               state && state.command
                 ? h('div', { className: 'dsdr-cmd', title: state.command }, `$ ${state.command}`)

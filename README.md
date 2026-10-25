@@ -6,6 +6,8 @@ DeepSeek Harness（DSH）Web 插件：自动检测当前会话工作区里的 .N
 
 - 以当前会话的工作目录作为工作区，递归查找 `*.csproj` / `*.fsproj` / `*.vbproj`（跳过 `.git`、`bin`、`obj`、`node_modules`、`.vs` 等目录）
 - 工作区里没有 .NET 项目时，三个按钮整体隐藏；有项目才出现在右下角
+- 「设备」下拉框像 IDE 一样探测本机可用目标：iOS 模拟器（`xcrun simctl`）、已连接的 iPhone / iPad 真机（`xcrun devicectl`，旧版 Xcode 回退 `xctrace`）、已连接的 Android 设备与 AVD（`adb` / `emulator`）、Mac Catalyst 本机；选中后带对应 RID / 设备参数编译运行
+- iOS 真机部署需要项目已配置好签名与 Provisioning（自动签名或描述文件）
 - 一个工作区有多个项目时，可在「更多」面板的下拉框里切换
 - 普通项目：`dotnet build` 成功后执行 `dotnet run --no-build`
 - MAUI 项目：`dotnet build` 成功后直接启动构建产物（macOS 上为 `*.app/Contents/MacOS/<AssemblyName>`），保持进程存活，因此「停止」可以真正结束 App
