@@ -20,6 +20,10 @@ DeepSeek Harness（DSH）Web 插件：自动检测当前会话工作区里的 .N
 
 ## 安装
 
+从 npm 安装（推荐）：让 DSH 的 agent 执行 `plugin_manager` 的 `install_bundle`，目标为 `dsh-dotnet-runner`。
+
+或从源码本地安装：
+
 1. 克隆本仓库：
 
    ```bash
@@ -37,7 +41,7 @@ DeepSeek Harness（DSH）Web 插件：自动检测当前会话工作区里的 .N
 ```yaml
 - insert:
     - id: dotnet-runner
-      name: '@local/dotnet-runner'
+      name: 'dsh-dotnet-runner'
       config:
         root: /path/to/workspace   # 覆盖工作区根目录
         dotnetPath: /usr/local/share/dotnet/dotnet  # 覆盖 dotnet 可执行文件

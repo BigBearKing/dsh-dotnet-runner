@@ -1,8 +1,24 @@
 {
-  "name": "@local/dotnet-runner",
+  "name": "dsh-dotnet-runner",
   "version": "1.0.0",
-  "private": true,
+  "description": "DeepSeek Harness plugin: detect .NET projects in the workspace and run/stop them from a floating button.",
   "type": "module",
+  "keywords": [
+    "dsh",
+    "deepseek-harness",
+    "dotnet",
+    "dotnet-run",
+    "plugin"
+  ],
+  "homepage": "https://github.com/BigBearKing/dsh-dotnet-runner#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BigBearKing/dsh-dotnet-runner.git"
+  },
+  "bugs": {
+    "url": "https://github.com/BigBearKing/dsh-dotnet-runner/issues"
+  },
+  "author": "BigBearKing",
   "exports": {
     ".": "./index.js",
     "./client": "./client.js",
