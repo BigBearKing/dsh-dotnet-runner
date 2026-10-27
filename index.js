@@ -201,7 +201,9 @@ export function apply(ctx, config = {}) {
       if (kind === 'ios-simulator' && selection.target) {
         runArgs.push(`-p:RuntimeIdentifier=${simulatorRid()}`, `-p:_DeviceName=:v2:udid=${selection.target}`)
       } else if (kind === 'ios-device' && selection.target) {
-        runArgs.push('-p:RuntimeIdentifier=ios-arm64', `-p:_DeviceName=:v2:udid=${selection.target}`)
+        // mlaunch resolves a physical device from the bare UDID; the
+        // ":v2:udid=" spec is simulator-only and is taken literally here.
+        runArgs.push('-p:RuntimeIdentifier=ios-arm64', `-p:_DeviceName=${selection.target}`)
       } else if (kind === 'android-device' && selection.target) {
         runArgs.push(`-p:AdbTarget=-s ${selection.target}`)
       }
